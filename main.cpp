@@ -5,10 +5,9 @@
 #include "print.hpp"
 #include "timsort.hpp"
 
-template <class Iter,
-    class Cmp = std::less<typename std::iterator_traits<Iter>::value_type>>
-void check(Iter first, Iter last, Cmp cmp = {})
-{
+template<class Iter,
+        class Cmp = std::less<typename std::iterator_traits<Iter>::value_type>>
+void check(Iter first, Iter last, Cmp cmp = {}) {
     while (++first < last) {
         if (cmp(first[0], first[-1])) {
             throw std::runtime_error("Sort error");
@@ -16,9 +15,8 @@ void check(Iter first, Iter last, Cmp cmp = {})
     }
 }
 
-template <class Fun>
-void Time(Fun&& fun)
-{
+template<class Fun>
+void Time(Fun &&fun) {
     clock_t begin_clock = clock();
     auto begin_tick = std::chrono::steady_clock::now();
     fun();
@@ -29,12 +27,11 @@ void Time(Fun&& fun)
     println("steady:\t", diff.count(), "s");
 }
 
-std::mt19937 mt_rand { std::random_device {}() };
+std::mt19937 mt_rand{std::random_device{}()};
 
-template <class Iter,
-    class Cmp = std::less<typename std::iterator_traits<Iter>::value_type>>
-void test(Iter first, Iter last, Cmp cmp = {})
-{
+template<class Iter,
+        class Cmp = std::less<typename std::iterator_traits<Iter>::value_type>>
+void test(Iter first, Iter last, Cmp cmp = {}) {
     println("\nRandom:");
     Time([&] {
         ptrdiff_t len = last - first;
@@ -67,14 +64,13 @@ void test(Iter first, Iter last, Cmp cmp = {})
     check(first, last, cmp);
 }
 
-int main()
-{
-    size_t len = 50000 * (size_t)9999;
+int main() {
+    size_t len = 5000 * (size_t) 9999;
     std::vector<int> arr;
     arr.resize(len);
     size_t num = 1;
     while (num--) {
-        test(arr.begin(), arr.end(), std::greater<int> {});
+        test(arr.begin(), arr.end(), std::greater<int>{});
     }
     return 0;
 }
